@@ -81,4 +81,58 @@ fun EntrySiswaBody(
     Column(
         verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_large)),
         modifier = modifier.padding(dimensionResource(id = R.dimen.padding_medium))
-    )
+    ) {
+        FormInputSiswa(
+            detailSiswa = uiStateSiswa.detailSiswa,
+            onValueChange = onSiswaValueChange,
+            modifier = Modifier.fillMaxWidth()
+        )
+        Button(
+            onClick = onSaveClick,
+            enabled = uiStateSiswa.isEntryValid,
+            shape = MaterialTheme.shapes.small,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text(stringResource(R.string.btn_submit))
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun FormInputSiswa(
+    detailSiswa: DetailSiswa,
+    modifier: Modifier = Modifier,
+    onValueChange: (DetailSiswa) -> Unit = {},
+    enabled: Boolean = true
+){
+    Column(
+        modifier = modifier,
+        verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_medium))
+        ){
+            OutlinedTextField(
+                value = detailSiswa.nama,
+                onValueChange = {onValueChange(detailSiswa.copy(nama=it)) },
+                label = { Text(stringResource(R.string.nama)) },
+                modifier = Modifier.fillMaxWidth(),
+                enabled = enabled,
+                singleLine = true
+            )
+            OutlinedTextField(
+                value = detailSiswa.alamat,
+                onValueChange = {onValueChange(detailSiswa.copy(alamat=it))},
+                label = { Text(stringResource(R.string.alamat)) },
+                modifier = Modifier.fillMaxWidth(),
+                enabled = enabled,
+                singleLine = true
+            )
+            OutlinedTextField(
+                value = detailSiswa.telpon,
+                onValueChange = {onValueChange(detailSiswa.copy(telpon = it))},
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                label = { Text(text = stringResource(R.string.telpon)) },
+                modifier = Modifier.fillMaxWidth(),
+                enabled = enabled,
+                singleLine = true
+            )
+
