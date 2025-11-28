@@ -19,3 +19,16 @@ class HomeViewModel(
         private const val TIMEOUT_MILLIS = 5_000L
     }
 
+    val homeViewModel: StateFlow<HomeUiState> = repositoriSiswa.getAllSiswaStream()
+        .filterNotNull()
+        .map { HomeUiState(listSiswa = it) }
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(TIMEOUT_MILLIS),
+            initialValue = HomeUiState()
+        )
+
+    data class HomeUiState(
+        val listSiswa: List<Siswa> = listOf()
+    )
+}
