@@ -1,2 +1,5 @@
 ![tugas 7 (2)](https://github.com/user-attachments/assets/a53fbe05-0660-4ca0-8656-c2131e9e4bf6)
 ![tugas 7 (1)](https://github.com/user-attachments/assets/cc3fe8a9-7135-4df9-9f10-fd88f73ef861)
+![edit](https://github.com/user-attachments/assets/32fca1df-83fd-40a3-be5e-024449a1e9dd)
+![hapus](https://github.com/user-attachments/assets/422402d8-ed02-4deb-92a3-821de4cdeb57)
+![Detail](https://github.com/user-attachments/assets/7b0257b5-2fe9-437b-b405-38ca0767e3c6)
