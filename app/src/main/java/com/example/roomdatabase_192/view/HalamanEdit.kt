@@ -1,44 +1,47 @@
-package com.example.roomdatabase_192.viewmodel
+package com.example.roomdatabase_192.view
 
-import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.example.roomdatabase_192.repositori.RepositoriSiswa
-import com.example.roomdatabase_192.view.route.DestinasiDetailSiswa
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.filterNotNull
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.stateIn
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Scaffold
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.roomdatabase_192.view.route.DestinasiEditSiswa
+import com.example.roomdatabase_192.viewmodel.EditViewModel
+import com.example.roomdatabase_192.viewmodel.provider.PenyediaViewModel
+import kotlinx.coroutines.launch
 
-class DetailViewModel (
-    savedStateHandle: SavedStateHandle,
-    private val repositoriSiswa: RepositoriSiswa) : ViewModel(){
-
-    private val idSiswa: Int = checkNotNull(savedStateHandle[DestinasiDetailSiswa.itemIdArg])
-
-    val uiDetailState: StateFlow<DetailSiswaUiState> =
-        repositoriSiswa.getSiswaStream(idSiswa)
-            .filterNotNull()
-            .map {
-                DetailSiswaUiState(detailSiswa = it.toDetailSiswa())
-            }.stateIn(
-                scope = viewModelScope,
-                started = SharingStarted.WhileSubscribed(TIMEOUT_MILLIS),
-                initialValue = DetailSiswaUiState()
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun EditSiswaScreen(
+    navigateBack: () -> Unit,
+    onNavigateUp: () -> Unit,
+    modifier: Modifier = Modifier,
+    viewModel: EditViewModel = viewModel(factory = PenyediaViewModel.Factory)
+) {
+    Scaffold(
+        topBar = {
+            SiswaTopAppBar(
+                title = stringResource(DestinasiEditSiswa.titleRes),
+                canNavigateBack = true,
+                navigateUp = onNavigateUp
             )
-    suspend fun deleteSiswa(){
-        repositoriSiswa.deleteSiswa(uiDetailState.value.detailSiswa.toSiswa())
-    }
-
-    companion object {
-        private const val TIMEOUT_MILLIS = 5_000L
+        },
+        modifier = modifier
+    ) { innerPadding ->
+        val coroutineScope = rememberCoroutineScope()
+        EntrySiswaBody(
+            uiStateSiswa = viewModel.uiStateSiswa,
+            onSiswaValueChange = viewModel::updateUiState,
+            onSaveClick = {
+                coroutineScope.launch {
+                    viewModel.updateSiswa()
+                    navigateBack()
+                }
+            },
+            modifier = Modifier.padding(innerPadding)
+        )
     }
 }
-
-/**
- * UI state for ItemDetailsScreen
- */
-data class DetailSiswaUiState(
-    val detailSiswa: DetailSiswa = DetailSiswa()
-)

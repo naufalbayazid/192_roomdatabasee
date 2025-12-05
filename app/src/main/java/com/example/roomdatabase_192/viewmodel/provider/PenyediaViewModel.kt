@@ -12,8 +12,6 @@ import com.example.roomdatabase_192.viewmodel.DetailViewModel
 import com.example.roomdatabase_192.viewmodel.EditViewModel
 import com.example.roomdatabase_192.viewmodel.EntryViewModel
 import com.example.roomdatabase_192.viewmodel.HomeViewModel
-import com.example.roomdatabase_192.viewmodel.EntryViewModel
-import com.example.roomdatabase_192.viewmodel.HomeViewModel
 
 object PenyediaViewModel {
 

@@ -1,6 +1,5 @@
 package com.example.roomdatabase_192.view
 
-package com.example.roomdatabase.view
 
 
 import androidx.compose.foundation.layout.Arrangement
