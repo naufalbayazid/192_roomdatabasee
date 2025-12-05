@@ -1,30 +1,18 @@
 package com.example.roomdatabase_192.repositori
 
 
+import androidx.room.Dao
+import com.example.roomdatabase_192.room.Siswa
+import com.example.roomdatabase_192.room.SiswaDao
+import kotlinx.coroutines.flow.Flow
 
-import android.app.Application
-import android.content.Context
-import com.example.roomdatabase_192.room.DatabaseSiswa
+interface RepositoriSiswa {
+    fun getAllSiswaStream(): Flow<List<Siswa>>
+    suspend fun insertSiswa(siswa: Siswa)
 
+    fun getSiswaStream(id: Int): Flow<Siswa?>
 
-
-interface ContainerApp {
-    val repositorySiswa : RepositoriSiswa
+    suspend fun deleteSiswa(siswa: Siswa)
+    suspend fun updateSiswa(siswa: Siswa)
 }
 
-class ContainerDataApp(private val context: Context):
-    ContainerApp{
-    override val repositorySiswa: RepositoriSiswa by lazy {
-        OfflineRepositoriSiswa(
-            siswaDao = DatabaseSiswa.getDatabase(context).siswaDao()
-        )
-    }
-}
-class AplikasiSiswa : Application() {
-    lateinit var container: ContainerApp
-
-    override fun onCreate() {
-        super.onCreate()
-        container = ContainerDataApp(context=this)
-    }
-}
